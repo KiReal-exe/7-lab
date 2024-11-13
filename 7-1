@@ -1,0 +1,34 @@
+fun main() {
+    println("Введите первое число:")
+    val firstNumber = readLine()?.toDoubleOrNull()
+    
+    if (firstNumber == null) {
+        println("Ошибка ввода. Введено некорректное значение.")
+        return
+    }
+    
+    println("Введите второе число:")
+    val secondNumber = readLine()?.toDoubleOrNull()
+    
+    if (secondNumber == null) {
+        println("Ошибка ввода. Введено некорректное значение.")
+        return
+    }
+    
+    println("Выберите операцию (+, -, *, /):")
+    val operation = readLine()
+    
+    when(operation) {
+        "+" -> println("${firstNumber} + ${secondNumber} = ${firstNumber + secondNumber}")
+        "-" -> println("${firstNumber} - ${secondNumber} = ${firstNumber - secondNumber}")
+        "*" -> println("${firstNumber} * ${secondNumber} = ${firstNumber * secondNumber}")
+        "/" -> {
+            if (secondNumber != 0.0) {
+                println("${firstNumber} / ${secondNumber} = ${firstNumber / secondNumber}")
+            } else {
+                println("Ошибка деления на ноль!")
+            }
+        }
+        else -> println("Неизвестная операция.")
+    }
+}
