@@ -1,0 +1,13 @@
+fun main() 
+{
+    println("Введите слово для проверки на палиндром:")
+    val input = readLine()?:""
+
+    // Проверка, является ли слово палиндромом
+    val reversedWord = input.reversed()
+    if (input.equals(reversedWord, ignoreCase = true)) {
+        println("$input является палиндромом.")
+    } else {
+        println("$input не является палиндромом.")
+    }
+}
