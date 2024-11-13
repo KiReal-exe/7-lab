@@ -1,0 +1,14 @@
+fun areNumbersEqual(a: Int, b: Int): Boolean {
+    return a == b
+}
+
+fun main() {
+    println("Введите первое число:")
+    val num1 = readLine()?.toIntOrNull() ?: 0
+
+    println("Введите второе число:")
+    val num2 = readLine()?.toIntOrNull() ?: 0
+
+    val result = areNumbersEqual(num1, num2)
+    println("Результат сравнения: $result")
+}
