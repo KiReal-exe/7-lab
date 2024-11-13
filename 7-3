@@ -1,0 +1,17 @@
+fun main() {
+    println("Введите количество побед:")
+    val wins = readLine()?.toIntOrNull() ?: 0
+
+    println("Введите количество ничьих:")
+    val draws = readLine()?.toIntOrNull() ?: 0
+
+    println("Введите количество поражений:")
+    val losses = readLine()?.toIntOrNull() ?: 0
+
+    val totalPoints = calculateTotalPoints(wins, draws, losses)
+    println("Общая сумма очков команды: $totalPoints")
+}
+
+fun calculateTotalPoints(wins: Int, draws: Int, losses: Int): Int {
+    return wins * 3 + draws * 1 + losses * 0
+}
