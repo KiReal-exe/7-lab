@@ -1,0 +1,127 @@
+import java.util.*
+
+// Карта
+data class Card(val rank: String, val suit: String, val value: Int)
+
+// Колода карт
+class Deck {
+    private val cards = mutableListOf<Card>()
+
+    init {
+        val ranks = listOf("Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King")
+        val suits = listOf("Hearts", "Diamonds", "Clubs", "Spades")
+
+        for (suit in suits) {
+            for (rank in ranks) {
+                var value = when (rank) {
+                    "Ace" -> 11
+                    "Jack", "Queen", "King" -> 10
+                    else -> rank.toInt()
+                }
+                cards.add(Card(rank, suit, value))
+            }
+        }
+    }
+
+    fun shuffle() {
+        cards.shuffle()
+    }
+
+    fun drawCard(): Card? {
+        return if (cards.isNotEmpty()) {
+            cards.removeAt(0)
+        } else {
+            null
+        }
+    }
+}
+
+// Игрок
+class Player {
+    val hand = mutableListOf<Card>()
+    var score = 0
+
+    fun addCard(card: Card) {
+        hand.add(card)
+        updateScore()
+    }
+
+    private fun updateScore() {
+        score = hand.sumBy { card ->
+            when (card.rank) {
+                "Ace" -> if (score + 11 > 21) 1 else 11
+                else -> card.value
+            }
+        }
+    }
+
+    override fun toString(): String {
+        return "Player(hand=$hand, score=$score)"
+    }
+}
+
+// Игра
+class Game {
+    private val deck = Deck()
+    private val player = Player()
+    private val dealer = Player()
+
+    init {
+        deck.shuffle()
+    }
+
+    fun start() {
+        dealInitialCards()
+        playRound()
+    }
+
+    private fun dealInitialCards() {
+        player.addCard(deck.drawCard()!!)
+        dealer.addCard(deck.drawCard()!!)
+        player.addCard(deck.drawCard()!!)
+        dealer.addCard(deck.drawCard()!!)
+    }
+
+    private fun playRound() {
+        while (player.score < 17 && player.score <= 21) {
+            hit(player)
+        }
+
+        if (player.score > 21) {
+            println("Player busted with score: ${player.score}. Dealer wins!")
+            return
+        }
+
+        while (dealer.score < 17 && dealer.score <= 21) {
+            hit(dealer)
+        }
+
+        if (dealer.score > 21) {
+            println("Dealer busted with score: ${dealer.score}. Player wins!")
+            return
+        }
+
+        determineWinner()
+    }
+
+    private fun hit(player: Player) {
+        val card = deck.drawCard()!!
+        player.addCard(card)
+        println("${player.javaClass.simpleName} drew a ${card.rank} of ${card.suit}. Score: ${player.score}")
+    }
+
+    private fun determineWinner() {
+        if (player.score > dealer.score) {
+            println("Player wins with score: ${player.score} vs Dealer's score: ${dealer.score}")
+        } else if (dealer.score > player.score) {
+            println("Dealer wins with score: ${dealer.score} vs Player's score: ${player.score}")
+        } else {
+            println("It's a tie with both scores at: ${player.score}")
+        }
+    }
+}
+
+fun main() {
+    val game = Game()
+    game.start()
+}
