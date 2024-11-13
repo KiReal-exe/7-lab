@@ -1,0 +1,16 @@
+fun main() {
+    println("Введите список чисел через пробел:")
+    val input = readLine()!!
+
+    // Разбиваем строку на отдельные элементы и преобразуем их в целые числа
+    val numbers = input.split(" ").mapNotNull { it.toIntOrNull() }
+
+    // Находим минимальное число в списке
+    val minValue = numbers.minOrNull()
+
+    if (minValue != null) {
+        println("Самое маленькое число в списке: $minValue")
+    } else {
+        println("Список пуст.")
+    }
+}
